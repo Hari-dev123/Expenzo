@@ -34,7 +34,7 @@ const submit=async(e,id)=>{
 
     if(!Validate()) return
 try{
-    const res=await axios.post(`http://localhost:3000/api/expense/${userId}`,
+    const res=await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expense/${userId}`,
         {
          
         

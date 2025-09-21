@@ -13,7 +13,7 @@ const [errors,seterrors]=useState({})
 const submit=async (e)=>{
     e.preventDefault();
     try{
-        const res=await axios.post("http://localhost:3000/api/login",{
+        const res=await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login",{
             email,password
         });
           localStorage.setItem("token", res.data.tokens);

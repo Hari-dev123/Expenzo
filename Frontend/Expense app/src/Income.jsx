@@ -14,7 +14,7 @@ const Income = () => {
  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
     useEffect(()=>{
-        fetch(`http://localhost:3000/api/incomes/${userid}?page=${page}&limit=5`,{
+        fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/incomes/${userid}?page=${page}&limit=5`,{
             headers:{
                 Authorization:` ${token}`
             }
@@ -37,7 +37,7 @@ const Income = () => {
     const IncomeById=(id)=>{
 
         
-            fetch(`http://localhost:3000/api/income/detail/${id}`,{
+            fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/income/detail/${id}`,{
                 headers:{
                     Authorization:`${token}`
                 }
@@ -59,7 +59,7 @@ const Income = () => {
         }
 
 const UpdateIncome=(id)=>{
-    fetch(`http://localhost:3000/api/income/update/${id}`,{
+    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/income/update/${id}`,{
         method:"PATCH",
         headers:{
             "Content-Type":"application/json",
@@ -97,7 +97,7 @@ const UpdateIncome=(id)=>{
 
 const DeleteIncome=(id)=>{
   if (!window.confirm("Are you sure you want to delete this Income?")) return;
-   fetch(`http://localhost:3000/api/income/delete/${id}`,{
+   fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/income/delete/${id}`,{
         method:"Delete",
         headers:{
             "Content-Type":"application/json",
@@ -122,7 +122,7 @@ const DeleteIncome=(id)=>{
 
 }
 const search=(search)=>{
-  fetch(`http://localhost:3000/api/income/search/${userid}?page=1&limit=20&search=${search}`,{
+  fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/income/search/${userid}?page=1&limit=20&search=${search}`,{
     method:"get",
         headers:{
             "Content-Type":"application/json",

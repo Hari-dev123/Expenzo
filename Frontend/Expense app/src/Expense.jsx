@@ -12,7 +12,7 @@ const Expense = () => {
 const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
     useEffect(()=>{
-        fetch(`http://localhost:3000/api/expenses/${userid}?page=${page}&limit=5`,{
+        fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expenses/${userid}?page=${page}&limit=5`,{
             headers:{
                 Authorization:` ${token}`
             }
@@ -33,7 +33,7 @@ const [page, setPage] = useState(1);
     const expenseById=(id)=>{
 
         
-            fetch(`http://localhost:3000/api/expense/detail/${id}`,{
+            fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expense/detail/${id}`,{
                 headers:{
                     Authorization:`${token}`
                 }
@@ -55,7 +55,7 @@ const [page, setPage] = useState(1);
         }
 
 const Updateexpense=(id)=>{
-    fetch(`http://localhost:3000/api/expense/update/${id}`,{
+    fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expense/update/${id}`,{
         method:"PATCH",
         headers:{
             "Content-Type":"application/json",
@@ -93,7 +93,7 @@ const Updateexpense=(id)=>{
 
 const DeleteExpense=(id)=>{
   if (!window.confirm("Are you sure you want to delete this expense?")) return;
-   fetch(`http://localhost:3000/api/expense/delete/${id}`,{
+   fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expense/delete/${id}`,{
         method:"Delete",
         headers:{
             "Content-Type":"application/json",
@@ -118,7 +118,7 @@ const DeleteExpense=(id)=>{
 
 }
 const search=(search)=>{
-  fetch(`http://localhost:3000/api/expense/search/${userid}?page=1&limit=20&search=${search}`,{
+  fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expense/search/${userid}?page=1&limit=20&search=${search}`,{
     method:"get",
         headers:{
             "Content-Type":"application/json",

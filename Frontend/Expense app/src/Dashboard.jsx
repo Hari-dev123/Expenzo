@@ -12,7 +12,7 @@ const Dashboard = () => {
     useEffect(()=>{
        const totalincome=async()=>{
            try{
-        const res=await axios.get(`http://localhost:3000/api/income/total/${userid}`,{
+        const res=await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/income/total/${userid}`,{
 
 headers:{
             "Content-Type":"application/json",
@@ -27,7 +27,7 @@ headers:{
 
      const totalexpense=async()=>{
             try{
-        const res=await axios.get(`http://localhost:3000/api/expense/total/${userid}`,{
+        const res=await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expense/total/${userid}`,{
 
 headers:{
             "Content-Type":"application/json",
@@ -44,7 +44,7 @@ headers:{
 
   const Balance=async()=>{
             try{
-        const res=await axios.get(`http://localhost:3000/api/balance/${userid}`,{
+        const res=await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/balance/${userid}`,{
 
 headers:{
             "Content-Type":"application/json",

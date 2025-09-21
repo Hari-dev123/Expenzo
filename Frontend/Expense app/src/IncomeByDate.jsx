@@ -23,12 +23,12 @@ const IncomeExpenseByDate = () => {
       const formattedDate = selectedDate.toISOString().split("T")[0];
 
       const incomeRes = await axios.get(
-        `http://localhost:3000/api/income/date/${userId}/${formattedDate}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/income/date/${userId}/${formattedDate}`,
         { headers: { Authorization: ` ${token}` } }
       );
 
       const expenseRes = await axios.get(
-        `http://localhost:3000/api/expense/date/${userId}/${formattedDate}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/expense/date/${userId}/${formattedDate}`,
         { headers: { Authorization: ` ${token}` } }
       );
 
