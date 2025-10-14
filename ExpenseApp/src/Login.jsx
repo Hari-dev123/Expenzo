@@ -1,49 +1,49 @@
 import React, { useState } from "react";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
 
 
-const navigate=useNavigate();
-    const [email,setEmail]=useState("");
-const [password,setpassword]=useState("");
-const [errors,seterrors]=useState({})
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
+  const [errors, seterrors] = useState({})
 
-const submit=async (e)=>{
+  const submit = async (e) => {
     e.preventDefault();
-    try{
-        const res=await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login",{
-            email,password
-        });
-          localStorage.setItem("token", res.data.tokens);
-           // Save user ID from backend response
-    if (res.data.user && res.data.user._id) {
-      localStorage.setItem("_id", res.data.user._id);
-    }// must be set after login
+    try {
+      const res = await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login", {
+        email, password
+      });
+      localStorage.setItem("token", res.data.tokens);
+      // Save user ID from backend response
+      if (res.data.user && res.data.user._id) {
+        localStorage.setItem("_id", res.data.user._id);
+      }// must be set after login
 
-        seterrors({});
-        navigate("/dashboard")
-        alert("User Logged in")
-    setEmail("");
-    setpassword("");
+      seterrors({});
+      navigate("/dashboard")
+      alert("User Logged in")
+      setEmail("");
+      setpassword("");
 
     }
-    catch(e){
-         if(e.response&&e.response.data&&e.response.data.message){
-            const backendMessage=e.response.data.message
-   seterrors({general:backendMessage})
-         }
-            else{
-seterrors({general:"Login Failed"})
+    catch (e) {
+      if (e.response && e.response.data && e.response.data.message) {
+        const backendMessage = e.response.data.message
+        seterrors({ general: backendMessage })
+      }
+      else {
+        seterrors({ general: "Login Failed" })
 
-            }
-        
+      }
 
-    
-    
-}
-}
+
+
+
+    }
+  }
   return (
     <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
       <div
@@ -60,8 +60,8 @@ seterrors({general:"Login Failed"})
           {/* Email */}
 
           {errors.general && <div className="alert alert-danger">{errors.general}</div>}
-          
-          
+
+
 
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
@@ -72,7 +72,7 @@ seterrors({general:"Login Failed"})
               className="form-control"
               id="email"
               value={email}
-              onChange={(e)=>{setEmail(e.target.value); seterrors({}); }}
+              onChange={(e) => { setEmail(e.target.value); seterrors({}); }}
               placeholder="Enter your email"
               required
             />
@@ -88,7 +88,7 @@ seterrors({general:"Login Failed"})
               className="form-control"
               id="password"
               value={password}
-              onChange={(e)=>{setpassword(e.target.value); seterrors({}); }}
+              onChange={(e) => { setpassword(e.target.value); seterrors({}); }}
               placeholder="Enter your password"
               required
             />
@@ -96,7 +96,7 @@ seterrors({general:"Login Failed"})
 
           {/* Remember Me & Forgot Password */}
           <div className="d-flex justify-content-between align-items-center mb-3">
-           
+
             <a href="/" className="text-decoration-none">
               Forgot password?
             </a>
@@ -111,7 +111,7 @@ seterrors({general:"Login Failed"})
         {/* Sign Up Link */}
         <p className="text-center mt-3 mb-0">
           Don't have an account?{" "}
-         <Link to="/signin" className="text-decoration-none">Sign in</Link>
+          <Link to="/signin" className="text-decoration-none">Sign in</Link>
         </p>
       </div>
     </div>
