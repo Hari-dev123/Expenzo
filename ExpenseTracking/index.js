@@ -3,7 +3,7 @@ const cors = require("cors");
 const User=require('./Models/userModel.js')
 const UserRoute=require('./Routes/route.js')
 const connectDb=require('./config/db.js')
-
+require('dotenv').config()
 
 
 connectDb();
@@ -11,7 +11,7 @@ const app =express()
 app.use(express.json())
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,  // React dev server URL
+    origin: process.env.FRONTEND_URL,  
     methods: "GET,POST,PUT,DELETE,PATCH",
     credentials: true
   })
