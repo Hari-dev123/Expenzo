@@ -53,7 +53,6 @@ try{
 
     
 )
-    alert(res.data.message)
     setAmount("")
     setDescription("")
     setError({})   

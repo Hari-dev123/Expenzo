@@ -79,7 +79,6 @@ const UpdateIncome=(id)=>{
 
     })
     .then((data)=>{
-        alert("Income Updated successfully")
         setselectIncome(data.income);
         setIncomelist(prevList =>
             prevList.map(item =>
@@ -110,7 +109,6 @@ const DeleteIncome=(id)=>{
           }
           return response.json()})
           .then(()=>{
-            alert("Income Deleted Successfully")
             setselectIncome(null);
         setIncomelist(Incomelist.filter((exp) => exp._id !== id));
 

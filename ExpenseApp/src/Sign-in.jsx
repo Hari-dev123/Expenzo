@@ -1,80 +1,80 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  
-const navigate=useNavigate();
 
-    const [name,setName]=useState("");
-    const [email,setEmail]=useState("")
-    const[password,setPassword]=useState("")
-    const[errors,setError]=useState({})
+  const navigate = useNavigate();
 
-   const Validation=()=>{
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [errors, setError] = useState({})
 
-    let newError={}
-    if(!name.trim()) 
-      {newError.name="Name is required"}
-    else if(! /^[A-Za-z\s]+$/.test(name)){
-      newError.name="Name can only contains letters"}
+  const Validation = () => {
 
-    if(!email.trim()){
-
-     newError.email="Email is required"}
-
-    else if( !/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)){
-      newError.email="Email must be in valid Gmail format"}
-   
-
-   if(!password.trim()) {newError.password="Password is required"}
-    else if( !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)){
-      newError.password="Password must be 8 chars with uppercase, lowercase, number & symbol"}
-   
-    setError(newError)
-    return Object.keys(newError).length===0
-
+    let newError = {}
+    if (!name.trim()) { newError.name = "Name is required" }
+    else if (! /^[A-Za-z\s]+$/.test(name)) {
+      newError.name = "Name can only contains letters"
     }
 
-    const submit=async(e)=>{
-        e.preventDefault();
-    if(!Validation())return;
+    if (!email.trim()) {
 
-        try{
-          const  res=await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/register",{
-            name,email,password
-        })
-        alert(res.data.message)
-        navigate("/dashboard")
-        setName("");
+      newError.email = "Email is required"
+    }
+
+    else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)) {
+      newError.email = "Email must be in valid Gmail format"
+    }
+
+
+    if (!password.trim()) { newError.password = "Password is required" }
+    else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+      newError.password = "Password must be 8 chars with uppercase, lowercase, number & symbol"
+    }
+
+    setError(newError)
+    return Object.keys(newError).length === 0
+
+  }
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!Validation()) return;
+
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/register`, {
+        name, email, password
+      })
+      console.log("resssssssssssss", res)
+      localStorage.setItem('token', res.data.token)
+      navigate("/dashboard")
+      setName("");
       setEmail("");
       setPassword("");
-      setError({});}
-        catch(err){
-            // Backend validation errors
-            if(err.response&&err.response.data&&err.response.data.message){
-              const backendMessage=err.response.data.message
-
-              if(backendMessage.toLowerCase().includes("email already exists")){
-                  setError({general:backendMessage})
-              }
-              else{
-                setError({general:"Registration Failed Failed.please Try again Later"})
-              }
-              
-              
-            }
-            else {
-    setError({ general: "Something went wrong. Please try again." });
-  }
-  
-     
-        console.error(err.message);
-      
-        }
-
-      
+      setError({});
     }
+    catch (err) {
+      // Backend validation errors
+      if (err.response && err.response.data && err.response.data.message) {
+        const backendMessage = err.response.data.message
+
+        if (backendMessage.toLowerCase().includes("email already exists")) {
+          setError({ general: backendMessage })
+        }
+        else {
+          setError({ general: "Registration Failed Failed.please Try again Later" })
+        }
+      }
+      else {
+        setError({ general: "Something went wrong. Please try again." });
+      }
+      console.error(err.message);
+    }
+
+
+  }
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
@@ -99,10 +99,10 @@ const navigate=useNavigate();
             </label>
             <input
               type="text"
-             className={`form-control ${errors.name ? "is-invalid" : ""}`}
+              className={`form-control ${errors.name ? "is-invalid" : ""}`}
               id="name"
               value={name}
-              onChange={(e)=>setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name"
               required
             />
@@ -116,14 +116,14 @@ const navigate=useNavigate();
             </label>
             <input
               type="email"
-            className={`form-control ${errors.email ? "is-invalid" : ""}`}
+              className={`form-control ${errors.email ? "is-invalid" : ""}`}
               id="email"
-               value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
               required
             />
-             {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
           </div>
 
           {/* Password */}
@@ -135,12 +135,12 @@ const navigate=useNavigate();
               type="password"
               className={`form-control ${errors.password ? "is-invalid" : ""}`}
               id="password"
-               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
             />
-             {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+            {errors.password && <div className="invalid-feedback">{errors.password}</div>}
           </div>
 
           {/* Sign Up Button */}
@@ -153,7 +153,7 @@ const navigate=useNavigate();
         <p className="text-center mt-3 mb-0">
           Already have an account?{" "}
           <Link to="/" className="text-decoration-none">
-            Login
+            Sign in
           </Link>
         </p>
       </div>

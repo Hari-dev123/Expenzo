@@ -13,18 +13,13 @@ const Login = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login", {
+      const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/login`, {
         email, password
       });
-      localStorage.setItem("token", res.data.tokens);
-      // Save user ID from backend response
-      if (res.data.user && res.data.user._id) {
-        localStorage.setItem("_id", res.data.user._id);
-      }// must be set after login
-
+      console.log("ressssssssz", res)
+      localStorage.setItem("token", res.data.token);
       seterrors({});
       navigate("/dashboard")
-      alert("User Logged in")
       setEmail("");
       setpassword("");
 
@@ -54,7 +49,7 @@ const Login = () => {
           borderRadius: "15px",
         }}
       >
-        <h3 className="text-center mb-4">Login</h3>
+        <h3 className="text-center mb-4">Sign In</h3>
 
         <form onSubmit={submit}>
           {/* Email */}
@@ -104,14 +99,14 @@ const Login = () => {
 
           {/* Login Button */}
           <button type="submit" className="btn btn-primary w-100">
-            Login
+            Sign in
           </button>
         </form>
 
         {/* Sign Up Link */}
         <p className="text-center mt-3 mb-0">
           Don't have an account?{" "}
-          <Link to="/signin" className="text-decoration-none">Sign in</Link>
+          <Link to="/signin" className="text-decoration-none">Sign up</Link>
         </p>
       </div>
     </div>

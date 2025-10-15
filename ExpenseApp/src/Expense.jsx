@@ -75,7 +75,6 @@ const Updateexpense=(id)=>{
 
     })
     .then((data)=>{
-        alert("Expense Updated successfully")
         setselectExpense(data.expense);
         setExpenselist(prevList =>
             prevList.map(item =>
@@ -106,7 +105,6 @@ const DeleteExpense=(id)=>{
           }
           return response.json()})
           .then(()=>{
-            alert("Expense Deleted Successfully")
             setselectExpense(null);
         setExpenselist(Expenselist.filter((exp) => exp._id !== id));
 

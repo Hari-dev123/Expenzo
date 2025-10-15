@@ -115,7 +115,6 @@ const Index = () => {
               <button
                 className="nav-link text-white btn btn-dark w-100 text-start"
                 onClick={() => {
-                  alert("You have been logged out successfully!");
                   localStorage.removeItem("token");
                   localStorage.removeItem("_id");
                   navigate("/");
