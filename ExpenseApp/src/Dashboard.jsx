@@ -15,7 +15,7 @@ const Dashboard = () => {
       const res = await axios.get(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/income/total`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token}`,
+          Authorization: `Bearer ${token}`,
         }
       })
       setincome(res.data.totalincome)
@@ -31,7 +31,7 @@ const Dashboard = () => {
 
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token}`,
+          Authorization: `Bearer ${token}`,
         }
       })
       setExpense(res.data.totalexpense)
@@ -48,7 +48,7 @@ const Dashboard = () => {
 
         headers: {
           "Content-Type": "application/json",
-          Authorization: `${token}`,
+          Authorization: `Bearer ${token}`,
         }
       })
 

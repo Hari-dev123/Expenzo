@@ -97,13 +97,16 @@ const Login = async (req, res) => {
 
 const createIncome = async (req, res) => {
   try {
+    const { email } = req.user;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).json({ message: "User does not exist" });
+    }
     const { amount, description } = req.body;
-    const id = req.params.id;
-
     if (!amountRegex.test(amount)) {
       return res.status(400).json({ message: "Amount must be only  Numbers" });
     }
-    const income = await Income.create({ amount, description, user: id });
+    const income = await Income.create({ user: user._id, amount, description });
     res
       .status(201)
       .json({ message: "Income added successfully", income: income });
@@ -144,10 +147,11 @@ const detailExpense = async (req, res) => {
 
 const getIncome = async (req, res) => {
   try {
+    const { email } = req.user;
     const { page, limit } = req.query;
-
-    const userId = req.params.id;
-
+    const user = await User.findOne({ email });
+    const userId = user._id;
+    console.log("hereeeeeeeeee", email, page, limit, user);
     const skip = (page - 1) * limit;
 
     const total = await Income.countDocuments({ user: userId });
@@ -167,8 +171,10 @@ const getIncome = async (req, res) => {
 };
 const getExpense = async (req, res) => {
   try {
+    const { email } = req.user;
     const { page, limit } = req.query;
-    const userId = req.params.id;
+    const user = await User.findOne({ email });
+    const userId = user._id;
 
     const skip = (page - 1) * limit;
     const total = await Income.countDocuments({ user: userId });
@@ -232,12 +238,16 @@ const Expensesearch = async (req, res) => {
 const createExpense = async (req, res) => {
   try {
     const { amount, description } = req.body;
-    const id = req.params.id;
-
+    const { email } = req.user;
+    const user = await User.findOne({ email });
     if (!amountRegex.test(amount)) {
       return res.status(400).json({ message: "Amount must be only numbers" });
     }
-    const expense = await Expense.create({ amount, description, user: id });
+    const expense = await Expense.create({
+      amount,
+      description,
+      user: user._id,
+    });
     res
       .status(201)
       .json({ message: "Expenses Added successfully", expense: expense });
@@ -248,16 +258,16 @@ const createExpense = async (req, res) => {
 
 const totalIncome = async (req, res) => {
   try {
-    const userid = req.params.id;
-
+    const { email } = req.user;
+    const user = await User.findOne({ email });
     const totalincome = await Income.aggregate([
-      { $match: { user: new mongoose.Types.ObjectId(userid) } },
+      { $match: { user: user._id } },
       { $group: { _id: "$user", total: { $sum: "$amount" } } },
     ]);
     if (totalincome.length === 0) {
       return res.status(200).json({ message: "No income found", total: 0 });
     }
-    res.status(200).json({ userid, totalincome: totalincome[0].total });
+    res.status(200).json({ totalincome: totalincome[0].total });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -265,16 +275,16 @@ const totalIncome = async (req, res) => {
 
 const totalExpense = async (req, res) => {
   try {
-    const userid = req.params.id;
-
+    const { email } = req.user;
+    const user = await User.findOne({ email });
     const totalexpense = await Expense.aggregate([
-      { $match: { user: new mongoose.Types.ObjectId(userid) } },
+      { $match: { user: user._id } },
       { $group: { _id: "$user", total: { $sum: "$amount" } } },
     ]);
     if (totalexpense.length === 0) {
       return res.status(200).json({ message: "No Expense found", total: 0 });
     }
-    res.status(200).json({ userid, totalexpense: totalexpense[0].total });
+    res.status(200).json({ totalexpense: totalexpense[0].total });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -282,17 +292,15 @@ const totalExpense = async (req, res) => {
 
 const totalBalance = async (req, res) => {
   try {
-    const id = req.params.id;
-
-    const userId = new mongoose.Types.ObjectId(id);
-
+    const { email } = req.user;
+    const user = await User.findOne({ email });
     const totalIncome = await Income.aggregate([
-      { $match: { user: userId } },
+      { $match: { user: user._id } },
       { $group: { _id: "$user", total: { $sum: "$amount" } } },
     ]);
 
     const totalExpense = await Expense.aggregate([
-      { $match: { user: userId } },
+      { $match: { user: user._id } },
       { $group: { _id: "$user", total: { $sum: "$amount" } } },
     ]);
     // Get values or default to 0 if no data
@@ -302,7 +310,6 @@ const totalBalance = async (req, res) => {
     const balance = Math.max(0, income - expense);
 
     res.status(200).json({
-      userId: id,
       totalIncome: income,
       totalExpense: expense,
       balance: balance,
